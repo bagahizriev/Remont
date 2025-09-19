@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+
+body {
+	@apply bg-white text-black font-sans antialiased leading-normal text-base;
+	line-height: 1.2;
+}
+
+.header {
+	@apply relative h-screen bg-cover bg-center text-white;
+}
