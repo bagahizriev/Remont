@@ -1,0 +1,51 @@
+<header class="header relative h-screen bg-cover bg-center min-h-[600px]" id="about" style="background-image: url('/static/images/header.png')">
+    <!-- затемнение, чтобы текст читался -->
+    <div class="absolute inset-0 bg-black/50"></div>
+
+    <!-- Контент поверх -->
+    <div class="relative z-10 flex flex-col h-full max-w-[1280px] mx-auto px-5">
+        <!-- Навбар -->
+        <nav class="flex justify-between items-center py-6">
+            <ul class="flex gap-6 border border-white/50 px-8 py-4 rounded-full">
+                <li><a href="#about" class="">О нас</a></li>
+                <li><a href="#services" class="">Услуги</a></li>
+                <li><a href="#feedback" class="">Отзывы</a></li>
+                <li><a href="#faq" class="">Вопрос-ответ</a></li>
+                <li><a href="#contacts" class="">Контакты</a></li>
+            </ul>
+            <a href="#contacts" class="bg-background text-foreground px-8 py-4 rounded-full w-fit">Рассчитать стоимость</a>
+        </nav>
+
+        <!-- Hero -->
+        <div class="flex flex-col flex-grow items-left justify-center text-left gap-12">
+            <div class="flex flex-col gap-6">
+                <h1 class="text-[48px] font-bold">
+                    Качественный ремонт квартир<br />
+                    и домов «под ключ» в Саратове
+                </h1>
+                <p class="text-base">Сделаем ремонт в установленный срок с гарантией в 3 года</p>
+            </div>
+            <a href="#contacts" class="bg-background text-foreground px-9 py-5 rounded-full w-fit text-base">Рассчитать стоимость</a>
+        </div>
+
+        <!-- Преимущества -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 py-12">
+            <div class="text-left">
+                <h3 class="text-2xl font-bold mb-2">Опытная команда</h3>
+                <p>Более 5 лет на рынке</p>
+            </div>
+            <div class="text-left">
+                <h3 class="text-2xl font-bold mb-2">Четкие сроки</h3>
+                <p>Возместим издержки в случае увеличения сроков</p>
+            </div>
+            <div class="text-left">
+                <h3 class="text-2xl font-bold mb-2">Гарантия на работу</h3>
+                <p>3 года гарантии на все виды работ</p>
+            </div>
+            <div class="text-left">
+                <h3 class="text-2xl font-bold mb-2">Постоянная цена</h3>
+                <p>Не меняем смету в процессе работы по своему желанию</p>
+            </div>
+        </div>
+    </div>
+</header>

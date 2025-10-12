@@ -1,6 +1,7 @@
-from fastapi import FastAPI, Form
+from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from database import init_db, save_application
 
 app = FastAPI()
@@ -11,22 +12,23 @@ init_db()
 # Подключаем папку static для css/js
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+# Настраиваем шаблонизатор
+templates = Jinja2Templates(directory="templates")
+
 # Отдаём index.html
 @app.get("/", response_class=HTMLResponse)
-def serve_index():
-    with open("index.html", "r", encoding="utf-8") as f:
-        return f.read()
+def serve_index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 @app.get("/privacy", response_class=HTMLResponse)
-def serve_privacy():
-    with open("privacy.html", "r", encoding="utf-8") as f:
-        return f.read()
+def serve_privacy(request: Request):
+    return templates.TemplateResponse("privacy.html", {"request": request})
 
 @app.post("/submit-application")
 async def submit_application(
     name: str = Form(...),
     phone: str = Form(...),
-    comment: str = Form(None)  # <--- Новое поле, необязательное
+    comment: str = Form(None) 
 ):
     try:
         save_application(name.strip(), phone.strip(), comment.strip() if comment else None)

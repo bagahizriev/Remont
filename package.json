@@ -1,11 +1,16 @@
 {
-    "devDependencies": {
-        "@tailwindcss/cli": "^4.1.13",
-        "@tailwindcss/forms": "^0.5.10",
-        "tailwindcss": "^4.1.13"
-    },
+    "name": "Name",
+    "version": "1.0.0",
+    "description": "Description",
     "scripts": {
-        "dev": "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/css/output.css --watch",
-        "build": "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/css/output.css"
+        "build": "tailwindcss -i ./static/css/input.css -o ./static/css/output.css --minify",
+        "watch": "tailwindcss -i ./static/css/input.css -o ./static/css/output.css --watch"
+    },
+    "dependencies": {
+        "postcss": "^8.4.35",
+        "tailwindcss": "^3.4.1"
+    },
+    "devDependencies": {
+        "@tailwindcss/forms": "^0.5.10"
     }
 }

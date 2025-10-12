@@ -9,3 +9,9 @@ uvicorn main:app --reload
 ```
 npm run dev
 ```
+
+# 3rd terminal
+
+```
+python bot.py
+```

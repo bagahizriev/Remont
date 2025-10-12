@@ -22,7 +22,7 @@ def format_date(dt_str):
 
 def format_application(app):
     app_id, name, phone, comment, created_at, status = app
-    text = f"Заявка №{app_id} от {format_date(created_at)}\n\n"
+    text = f"Новая заявка от {format_date(created_at)}\n\n"
     text += f"Имя: {name}\n"
     text += f"Телефон: `{phone}`\n"
     if comment:
