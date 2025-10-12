@@ -23,12 +23,15 @@ def serve_privacy():
         return f.read()
 
 @app.post("/submit-application")
-async def submit_application(name: str = Form(...), phone: str = Form(...)):
+async def submit_application(
+    name: str = Form(...),
+    phone: str = Form(...),
+    comment: str = Form(None)  # <--- Новое поле, необязательное
+):
     try:
-        save_application(name, phone)
+        save_application(name.strip(), phone.strip(), comment.strip() if comment else None)
         return JSONResponse({"status": "success", "message": "Заявка успешно отправлена"})
+    except ValueError as e:
+        return JSONResponse(status_code=400, content={"status": "error", "message": str(e)})
     except Exception as e:
-        return JSONResponse(
-            status_code=400,
-            content={"status": "error", "message": str(e)}
-        )
+        return JSONResponse(status_code=500, content={"status": "error", "message": "Ошибка сервера"})
