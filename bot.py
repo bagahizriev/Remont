@@ -4,10 +4,10 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database import (
-    get_new_applications, get_applications, get_application_detail,
+    init_db, get_new_applications, get_applications, get_application_detail,
     get_latest_application_id, toggle_application_status
 )
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from dotenv import load_dotenv
 
 # Загружаем переменные окружения из .env файла
@@ -35,13 +35,25 @@ dp = Dispatcher()
 last_checked_id = None
 
 def format_date(dt_str):
+    # Создаем timezone для GMT+4
+    gmt4 = timezone(timedelta(hours=4))
+    
+    # Парсим дату из строки
     dt = datetime.fromisoformat(dt_str)
-    return dt.strftime("%d.%m.%Y")
+    
+    # Если дата не имеет timezone, считаем её UTC
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    
+    # Конвертируем в GMT+4
+    dt_gmt4 = dt.astimezone(gmt4)
+    
+    # Форматируем дату и время
+    return dt_gmt4.strftime("%d.%m.%Y %H:%M")
 
 def format_application(app):
-    app_id, name, phone, comment, created_at, status = app
+    app_id, phone, comment, created_at, status = app
     text = f"Новая заявка от {format_date(created_at)}\n\n"
-    text += f"Имя: {name}\n"
     text += f"Телефон: `{phone}`\n"
     if comment:
         text += f"\nКомментарий: {comment}"
@@ -65,7 +77,7 @@ async def check_new_applications():
                 text = format_application(app)
                 keyboard = InlineKeyboardMarkup(inline_keyboard=[
                     [InlineKeyboardButton(
-                        text="Закрыть заявку" if app[5]=="Новая" else "Открыть заявку",
+                        text="Закрыть заявку" if app[4]=="Новая" else "Открыть заявку",
                         callback_data=f"toggle_{app[0]}_0"
                     )]
                 ])
@@ -92,9 +104,9 @@ async def applications_list(message: types.Message, offset: int = 0, limit: int 
 
     buttons = [
         [InlineKeyboardButton(
-            text=f"{format_date(created_at)} - {name} ({status})",
+            text=f"{format_date(created_at)} - {phone} ({status})",
             callback_data=f"view_{app_id}_{offset}"
-        )] for app_id, name, created_at, status in reversed(apps)
+        )] for app_id, phone, created_at, status in reversed(apps)
     ]
     if len(apps) == limit:
         buttons.append([InlineKeyboardButton(text="Следующие", callback_data=f"next_{offset + limit}")])
@@ -121,7 +133,7 @@ async def applications_callback_handler(callback: types.CallbackQuery):
             text = format_application(app)
             keyboard = InlineKeyboardMarkup(inline_keyboard=[
                 [InlineKeyboardButton(
-                    text="Закрыть заявку" if app[5]=="Новая" else "Открыть заявку",
+                    text="Закрыть заявку" if app[4]=="Новая" else "Открыть заявку",
                     callback_data=f"toggle_{app_id}_{offset}"
                 )],
                 [InlineKeyboardButton(text="Назад", callback_data=f"back_{offset}")]
@@ -133,9 +145,9 @@ async def applications_callback_handler(callback: types.CallbackQuery):
         apps = get_applications(offset=offset, limit=5)
         buttons = [
             [InlineKeyboardButton(
-                text=f"{format_date(created_at)} - {name} ({status})",
+                text=f"{format_date(created_at)} - {phone} ({status})",
                 callback_data=f"view_{app_id}_{offset}"
-            )] for app_id, name, created_at, status in reversed(apps)
+            )] for app_id, phone, created_at, status in reversed(apps)
         ]
         if len(apps) == 5:
             buttons.append([InlineKeyboardButton(text="Следующие", callback_data=f"next_{offset + 5}")])
@@ -161,6 +173,8 @@ async def applications_callback_handler(callback: types.CallbackQuery):
 
 # --- Основной запуск ---
 async def main():
+    # Инициализируем базу данных
+    init_db()
     asyncio.create_task(check_new_applications())
     await dp.start_polling(bot)
 

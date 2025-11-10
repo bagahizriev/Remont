@@ -134,12 +134,11 @@ def serve_kosmeticheskiy_remont_v_saratove(request: Request):
 
 @app.post("/submit-application")
 async def submit_application(
-    name: str = Form(...),
     phone: str = Form(...),
     comment: str = Form(None) 
 ):
     try:
-        save_application(name.strip(), phone.strip(), comment.strip() if comment else None)
+        save_application(phone.strip(), comment.strip() if comment else None)
         return JSONResponse({"status": "success", "message": "Заявка успешно отправлена"})
     except ValueError as e:
         return JSONResponse(status_code=400, content={"status": "error", "message": str(e)})

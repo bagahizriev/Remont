@@ -5,6 +5,28 @@
     <!-- Навбар -->
     <nav id="navbar" class="absolute top-0 left-0 right-0 z-50 h-16 sm:h-20 bg-transparent">
         <div class="flex justify-between items-center h-full max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
+            <!-- Логотип слева -->
+            <div class="flex items-center">
+                <a href="/" class="flex items-center gap-3">
+                    <svg class="h-6 w-6" width="245" height="245" viewBox="0 0 245 245" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1_27)">
+                            <line x1="72.5" y1="93" x2="72.5" y2="243" stroke="currentColor" stroke-width="30" />
+                            <line x1="172.5" y1="93" x2="172.5" y2="148" stroke="currentColor" stroke-width="30" />
+                            <line x1="172.5" y1="188" x2="172.5" y2="243" stroke="currentColor" stroke-width="30" />
+                            <line x1="187.5" y1="108" x2="57.5" y2="108" stroke="currentColor" stroke-width="30" />
+                            <line x1="187.5" y1="228" x2="57.5" y2="228" stroke="currentColor" stroke-width="30" />
+                            <path d="M10 81.9519L122.5 17L235 81.9519" stroke="currentColor" stroke-width="30" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1_27">
+                                <rect width="245" height="245" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    <span class="text-lg font-medium text-white hidden sm:inline">Comfort Holding</span>
+                </a>
+            </div>
+
             <!-- Бургер / Крестик -->
             <button id="burger-btn" class="lg:hidden relative w-8 h-8 flex items-center justify-center z-50">
                 <!-- Иконка бургера -->
@@ -22,37 +44,14 @@
                 </div>
             </button>
 
-            <!-- Меню для десктопа -->
-            <ul class="hidden lg:flex items-center gap-6 border-[1.5px] border-white px-8 py-4 rounded-full text-base text-background transition-all duration-300">
-                <li>
-                    <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                        <svg class="h-6 w-6" width="245" height="245" viewBox="0 0 245 245" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#clip0_1_27)">
-                                <line x1="72.5" y1="93" x2="72.5" y2="243" stroke="currentColor" stroke-width="30" />
-                                <line x1="172.5" y1="93" x2="172.5" y2="148" stroke="currentColor" stroke-width="30" />
-                                <line x1="172.5" y1="188" x2="172.5" y2="243" stroke="currentColor" stroke-width="30" />
-                                <line x1="187.5" y1="108" x2="57.5" y2="108" stroke="currentColor" stroke-width="30" />
-                                <line x1="187.5" y1="228" x2="57.5" y2="228" stroke="currentColor" stroke-width="30" />
-                                <path d="M10 81.9519L122.5 17L235 81.9519" stroke="currentColor" stroke-width="30" />
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_1_27">
-                                    <rect width="245" height="245" fill="white" />
-                                </clipPath>
-                            </defs>
-                        </svg>
-                        <span class="text-lg font-medium">Comfort Holding</span>
-                    </a>
-                </li>
+            <!-- Меню для десктопа (справа) -->
+            <ul class="hidden lg:flex items-center gap-6 border-[1.5px] border-white px-8 py-4 rounded-full text-base text-background transition-all duration-300 ml-auto">
                 <li><a href="#about" class="hover:opacity-80 transition-opacity">О нас</a></li>
                 <li><a href="#services" class="hover:opacity-80 transition-opacity">Услуги</a></li>
                 <li><a href="#feedback" class="hover:opacity-80 transition-opacity">Отзывы</a></li>
                 <li><a href="#faq" class="hover:opacity-80 transition-opacity">Вопрос-ответ</a></li>
                 <li><a href="#contacts" class="hover:opacity-80 transition-opacity">Контакты</a></li>
             </ul>
-
-            <!-- Кнопка справа -->
-            <a href="#contacts" class="bg-background text-foreground px-4 py-3 rounded-full text-sm sm:text-base whitespace-nowrap hover:opacity-90 transition-opacity">Рассчитать стоимость</a>
         </div>
     </nav>
 

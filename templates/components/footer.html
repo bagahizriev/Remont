@@ -1,5 +1,5 @@
-<footer class="contacts bg-background-secondary text-background py-12 sm:py-16 lg:py-24 mt-12 sm:mt-16 lg:mt-24 min-h-[600px] sm:min-h-[700px]" id="contacts">
-    <div class="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 flex flex-col gap-8 sm:gap-12 h-full">
+<footer class="contacts bg-background-secondary text-background py-12 sm:py-16 lg:py-24 mt-12 sm:mt-16 lg:mt-24 min-h-dvh" id="contacts">
+    <div class="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 flex flex-col gap-8 justify-between sm:gap-12 h-full">
         <div class="flex flex-col gap-3">
             <div class="flex flex-row gap-2 items-center">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -10,7 +10,7 @@
             </div>
             <h2 class="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-4 sm:mb-6 leading-tight">Свяжитесь с нами</h2>
         </div>
-        <div class="flex flex-col lg:flex-row gap-4 lg:gap-2 w-full flex-grow">
+        <div class="flex flex-col lg:flex-row gap-4 lg:gap-2 w-full flex-grow items-stretch">
             <!-- Блок контактов -->
             <div class="bg-card-secondary w-full lg:w-1/2 p-5 sm:p-6 rounded-xl flex flex-col gap-4">
                 <h4 class="text-lg sm:text-xl font-medium">Контакты</h4>
@@ -21,17 +21,14 @@
             </div>
 
             <!-- Форма -->
-            <div class="w-full lg:w-1/2">
-                <div class="bg-card-secondary p-5 sm:p-6 rounded-xl flex flex-col gap-6">
+            <div class="w-full lg:w-1/2 flex">
+                <div class="bg-card-secondary p-5 sm:p-6 rounded-xl flex flex-col gap-6 w-full">
                     <div class="flex flex-col gap-4">
-                        <h3 class="text-lg sm:text-xl font-medium">Оставить заявку</h3>
+                        <h3 class="text-lg sm:text-xl font-medium">Оставьте заявку</h3>
                         <p class="text-xs sm:text-sm text-secondary">И мы перезвоним вам в ближайшее время</p>
                     </div>
                     <form class="space-y-5 text-sm" onsubmit="submitForm(event)">
                         <div class="space-y-4">
-                            <div>
-                                <input type="text" name="name" placeholder="Ваше имя" required class="w-full bg-transparent pr-4 py-2 border-b border-border-300 focus:outline-none focus:border-white placeholder:text-secondary transition-colors text-sm sm:text-base" />
-                            </div>
                             <div>
                                 <input type="tel" name="phone" id="phone" placeholder="Ваш телефон" required class="w-full bg-transparent pr-4 py-2 border-b border-border-300 focus:outline-none focus:border-white placeholder:text-secondary transition-colors text-sm sm:text-base" pattern="\+7 \([0-9]{3}\) [0-9]{3}-[0-9]{2}-[0-9]{2}" />
                             </div>
@@ -41,36 +38,60 @@
                         </div>
 
                         <div class="space-y-6">
-                            <div class="flex items-start gap-2">
-                                <div class="relative mt-1 flex-shrink-0">
-                                    <input type="checkbox" id="privacy" name="privacy" required class="peer appearance-none h-4 w-4 rounded-md border border-border-300 bg-transparent checked:border-background cursor-pointer hover:border-white transition-colors" />
-                                    <svg class="absolute hidden peer-checked:block top-[2px] left-[2px] w-3 h-3 pointer-events-none" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M13.3334 4L6.00008 11.3333L2.66675 8" stroke="var(--background)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </div>
-                                <label for="privacy" class="text-xs text-secondary leading-relaxed text-balance">
-                                    Отправляя заявку, я соглашаюсь
-                                    <a href="/privacy" class="underline underline-offset-4 hover:text-white transition-colors" target="_blank"> с политикой в отношении обработки персональных данных </a>
-                                </label>
-                            </div>
-
                             <div id="formMessage" class="text-sm hidden"></div>
-                            <button type="submit" class="bg-background text-foreground px-6 sm:px-8 py-3 sm:py-4 rounded-full w-full sm:w-fit text-sm sm:text-base hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed">Отправить заявку</button>
+                            <button type="submit" id="submitButton" disabled class="bg-background text-foreground px-6 sm:px-8 py-3 sm:py-4 rounded-full w-full sm:w-fit text-sm sm:text-base hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed">Отправить заявку</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+
+        <!-- Футер -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-6 pt-6 sm:pt-8  mt-auto">
+            <!-- Левая часть -->
+            <div class="flex flex-col gap-2 sm:gap-3">
+                <a href="/privacy" class="text-secondary text-sm sm:text-base hover:text-white transition-colors">Политика конфиденциальности</a>
+                <p class="text-white text-sm sm:text-base font-medium">Comfort Holding</p>
+                <p class="text-secondary text-xs sm:text-sm">© 2025 Все права защищены</p>
+            </div>
+
+            <!-- Правая часть -->
+            <div class="flex flex-col gap-1 sm:gap-2 items-start sm:items-end">
+                <p class="text-secondary text-sm sm:text-base">Разработка сайта</p>
+                <a href="https://vxtrnl.ru" target="_blank" rel="noopener noreferrer" class="text-secondary text-sm sm:text-base hover:text-white transition-colors">vxtrnl.ru</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно успешной отправки -->
+    <div id="successModal" class="fixed inset-0 z-50 hidden items-center justify-center">
+        <div class="fixed inset-0 bg-black/70" onclick="closeSuccessModal()"></div>
+        <div class="relative bg-card-secondary rounded-xl p-6 sm:p-8 max-w-md w-full mx-4 flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xl sm:text-2xl font-medium">Заявка отправлена</h3>
+                <button onclick="closeSuccessModal()" class="text-secondary hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <p class="text-sm sm:text-base text-secondary">Ваша заявка успешно отправлена. Мы свяжемся с вами в ближайшее время.</p>
+            <button onclick="closeSuccessModal()" class="bg-background text-foreground px-6 sm:px-8 py-3 sm:py-4 rounded-full w-full text-sm sm:text-base hover:opacity-90 transition-opacity">Закрыть</button>
+        </div>
     </div>
 
     <script>
+        let hasAttemptedSubmit = false;
+
         document.addEventListener('DOMContentLoaded', function () {
             const phoneInput = document.getElementById('phone');
-            if (!phoneInput) return;
+            const submitButton = document.getElementById('submitButton');
+            if (!phoneInput || !submitButton) return;
 
             phoneInput.addEventListener('input', onPhoneInput);
             phoneInput.addEventListener('focus', onPhoneFocus);
             phoneInput.addEventListener('blur', onPhoneBlur);
+            phoneInput.addEventListener('input', validatePhoneButton);
 
             function onPhoneFocus() {
                 if (!this.value) {
@@ -82,6 +103,7 @@
                 if (this.value === '+7 (' || this.value === '+7') {
                     this.value = '';
                 }
+                validatePhoneButton();
             }
 
             function onPhoneInput(e) {
@@ -104,8 +126,53 @@
                 }
 
                 input.value = formatted;
+
+                // Если была попытка отправки, показываем визуальную индикацию
+                if (hasAttemptedSubmit) {
+                    validatePhoneVisual();
+                }
             }
+
+            function validatePhoneButton() {
+                const phoneDigits = phoneInput.value.replace(/\D/g, '');
+                const isValid = phoneDigits.length === 11;
+                submitButton.disabled = !isValid;
+            }
+
+            function validatePhoneVisual() {
+                const phoneDigits = phoneInput.value.replace(/\D/g, '');
+                const isValid = phoneDigits.length === 11;
+
+                if (isValid) {
+                    phoneInput.classList.remove('border-red-500');
+                    phoneInput.classList.add('border-border-300');
+                } else {
+                    phoneInput.classList.remove('border-border-300');
+                    phoneInput.classList.add('border-red-500');
+                }
+            }
+
+            // Изначальная валидация кнопки
+            validatePhoneButton();
         });
+
+        function showSuccessModal() {
+            const modal = document.getElementById('successModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeSuccessModal() {
+            const modal = document.getElementById('successModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }
+        }
 
         async function submitForm(event) {
             event.preventDefault();
@@ -113,19 +180,17 @@
             const form = event.target;
             const phoneInput = form.querySelector('#phone');
             const messageDiv = document.getElementById('formMessage');
-            const submitButton = form.querySelector('button[type="submit"]');
-            const privacyCheckbox = form.querySelector('#privacy');
+            const submitButton = document.getElementById('submitButton');
 
             const phoneDigits = phoneInput.value.replace(/\D/g, '');
             if (phoneDigits.length !== 11) {
-                messageDiv.textContent = 'Введите полный номер телефона';
-                messageDiv.className = 'text-sm text-red-500';
-                messageDiv.classList.remove('hidden');
-                return;
-            }
+                // Отмечаем, что была попытка отправки
+                hasAttemptedSubmit = true;
+                // Подсвечиваем поле красным
+                phoneInput.classList.remove('border-border-300');
+                phoneInput.classList.add('border-red-500');
 
-            if (!privacyCheckbox.checked) {
-                messageDiv.textContent = 'Необходимо согласиться с условиями обработки персональных данных';
+                messageDiv.textContent = 'Введите полный номер телефона';
                 messageDiv.className = 'text-sm text-red-500';
                 messageDiv.classList.remove('hidden');
                 return;
@@ -147,18 +212,39 @@
                 const result = await response.json();
 
                 if (result.status === 'success') {
-                    messageDiv.textContent = result.message;
-                    messageDiv.className = 'text-sm text-green-500';
+                    messageDiv.classList.add('hidden');
                     form.reset();
+                    // Сбрасываем флаг попытки отправки
+                    hasAttemptedSubmit = false;
+                    // Возвращаем поле к нормальному виду
+                    phoneInput.classList.remove('border-red-500');
+                    phoneInput.classList.add('border-border-300');
+                    showSuccessModal();
+                    // Валидация после сброса формы
+                    setTimeout(() => {
+                        const phoneInput = document.getElementById('phone');
+                        const submitButton = document.getElementById('submitButton');
+                        if (phoneInput && submitButton) {
+                            submitButton.disabled = true;
+                        }
+                    }, 100);
                 } else {
                     throw new Error(result.message);
                 }
             } catch (error) {
                 messageDiv.textContent = error.message || 'Произошла ошибка при отправке формы';
                 messageDiv.className = 'text-sm text-red-500';
-            } finally {
                 messageDiv.classList.remove('hidden');
+            } finally {
                 submitButton.disabled = false;
+                // Восстанавливаем валидацию
+                setTimeout(() => {
+                    const phoneInput = document.getElementById('phone');
+                    if (phoneInput) {
+                        const phoneDigits = phoneInput.value.replace(/\D/g, '');
+                        submitButton.disabled = phoneDigits.length !== 11;
+                    }
+                }, 100);
             }
         }
     </script>
