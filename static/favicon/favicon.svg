@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="245" height="248"><svg width="245" height="248" viewBox="0 0 245 248" fill="none" xmlns="http://www.w3.org/2000/svg">
+<line x1="72.5" y1="96" x2="72.5" y2="246" stroke="black" stroke-width="30"></line>
+<line x1="172.5" y1="96" x2="172.5" y2="151" stroke="black" stroke-width="30"></line>
+<line x1="172.5" y1="191" x2="172.5" y2="246" stroke="black" stroke-width="30"></line>
+<line x1="187.5" y1="111" x2="57.5" y2="111" stroke="black" stroke-width="30"></line>
+<line x1="187.5" y1="231" x2="57.5" y2="231" stroke="black" stroke-width="30"></line>
+<path d="M10 84.9519L122.5 20L235 84.9519" stroke="black" stroke-width="30"></path>
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: invert(100%); } }
+</style></svg>

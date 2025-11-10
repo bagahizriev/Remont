@@ -7,7 +7,7 @@ uvicorn main:app --reload
 # 2nd terminal
 
 ```
-npm run dev
+npm run watch
 ```
 
 # 3rd terminal

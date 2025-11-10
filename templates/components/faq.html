@@ -1,90 +1,142 @@
-<section class="max-w-[1280px] mx-auto mt-12 flex flex-col gap-12 px-5" id="faq">
+<section class="max-w-[1280px] mx-auto mt-12 sm:mt-16 lg:mt-24 flex flex-col gap-8 sm:gap-12 px-5 sm:px-8 lg:px-12" id="faq">
     <div class="flex flex-col gap-3">
         <div class="flex flex-row gap-2 items-center">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 4L7.49521 7.75L1 11.5" stroke="var(--foreground)" stroke-width="1.5" />
-                <path d="M7.49521 4L13.9904 7.75L7.49521 11.5" stroke="var(--foreground)" stroke-width="1.5" />
+                <path d="M1 4L7.49521 7.75L1 11.5" stroke="var(--foreground)" stroke-width="1" />
+                <path d="M7.49521 4L13.9904 7.75L7.49521 11.5" stroke="var(--foreground)" stroke-width="1" />
             </svg>
-            <p>Вопрос-ответ</p>
+            <p class="font-light text-sm sm:text-base">Вопрос-ответ</p>
         </div>
-        <h2 class="text-[48px] font-bold">Часто задаваемые вопросы</h2>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-4 sm:mb-6 leading-tight">Часто задаваемые вопросы</h2>
     </div>
-
-    <div class="flex flex-row gap-2 relative">
-        <img class="w-1/2 h-[312px] object-cover rounded-2xl" src="static/images/header.png" alt="" />
-
-        <div class="w-1/2 flex flex-col gap-2 relative">
+    <div class="flex flex-col lg:flex-row gap-4 lg:gap-2">
+        <img class="w-full lg:w-1/2 aspect-video lg:aspect-auto lg:h-[312px] object-cover rounded-xl" src="../../static/images/faq.jpg" alt="FAQ" />
+        <div class="w-full lg:w-1/2 flex flex-col gap-2">
             <!-- Вопрос 1 -->
-            <div class="faq-item relative">
-                <button class="faq-question w-full items-center py-3 px-4 bg-card text-left rounded-2xl flex justify-between relative z-10">
-                    Могу ли я поменять что-то в ходе работ?
-                    <div class="bg-foreground p-2 rounded-full transition-transform duration-300">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 4L7.49521 7.75L1 11.5" stroke="var(--background)" stroke-width="2" />
-                            <path d="M7.49524 4L13.9904 7.75L7.49524 11.5" stroke="var(--background)" stroke-width="2" />
+            <div class="faq-item">
+                <button class="faq-question w-full items-center py-3 px-4 bg-card text-left rounded-xl flex justify-between transition-all duration-300 text-sm sm:text-base">
+                    <span>Могу ли я поменять что-то в ходе работ?</span>
+                    <div class="faq-icon bg-foreground p-2 rounded-full transition-transform duration-300 flex-shrink-0 ml-2">
+                        <svg class="h-4 w-4" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.025 22L7.25 20.225L15.475 12L7.25 3.775L9.025 2L19.025 12L9.025 22Z" fill="var(--background)" />
                         </svg>
                     </div>
                 </button>
-
-                <div class="faq-popup absolute left-0 top-full w-full bg-card rounded-b-2xl shadow-xl p-4 text-sm text-muted-foreground hidden z-50">Да, вы можете внести изменения в проект в процессе работ, но важно согласовать это с менеджером — чтобы корректировки не повлияли на сроки и стоимость.</div>
+                <div class="faq-answer overflow-hidden transition-all duration-300 max-h-0">
+                    <div class="p-4 pt-2 text-sm sm:text-base text-muted-foreground bg-card rounded-b-xl">Да, вы можете внести изменения в проект в процессе работ. Мы обсудим все детали и скорректируем смету при необходимости.</div>
+                </div>
             </div>
 
             <!-- Вопрос 2 -->
-            <div class="faq-item relative">
-                <button class="faq-question w-full items-center py-3 px-4 bg-card text-left rounded-2xl flex justify-between relative z-10">
-                    Как долго длится работа?
-                    <div class="bg-foreground p-2 rounded-full transition-transform duration-300">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 4L7.49521 7.75L1 11.5" stroke="var(--background)" stroke-width="2" />
-                            <path d="M7.49524 4L13.9904 7.75L7.49524 11.5" stroke="var(--background)" stroke-width="2" />
+            <div class="faq-item">
+                <button class="faq-question w-full items-center py-3 px-4 bg-card text-left rounded-xl flex justify-between transition-all duration-300 text-sm sm:text-base">
+                    <span>Сколько времени займет ремонт?</span>
+                    <div class="faq-icon bg-foreground p-2 rounded-full transition-transform duration-300 flex-shrink-0 ml-2">
+                        <svg class="h-4 w-4" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.025 22L7.25 20.225L15.475 12L7.25 3.775L9.025 2L19.025 12L9.025 22Z" fill="var(--background)" />
                         </svg>
                     </div>
                 </button>
-
-                <div class="faq-popup absolute left-0 top-full w-full bg-card rounded-b-2xl shadow-xl p-4 text-sm text-muted-foreground hidden z-50">Сроки зависят от сложности проекта, обычно от 2 до 6 недель.</div>
+                <div class="faq-answer overflow-hidden transition-all duration-300 max-h-0">
+                    <div class="p-4 pt-2 text-sm sm:text-base text-muted-foreground bg-card rounded-b-xl">Сроки зависят от объема работ. Стандартный ремонт двухкомнатной квартиры занимает 2-3 месяца.</div>
+                </div>
             </div>
 
-            <div class="faq-item relative">
-                <button class="faq-question w-full items-center py-3 px-4 bg-card text-left rounded-2xl flex justify-between relative z-10">
-                    Как долго длится работа?
-                    <div class="bg-foreground p-2 rounded-full transition-transform duration-300">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 4L7.49521 7.75L1 11.5" stroke="var(--background)" stroke-width="2" />
-                            <path d="M7.49524 4L13.9904 7.75L7.49524 11.5" stroke="var(--background)" stroke-width="2" />
+            <!-- Вопрос 3 -->
+            <div class="faq-item">
+                <button class="faq-question w-full items-center py-3 px-4 bg-card text-left rounded-xl flex justify-between transition-all duration-300 text-sm sm:text-base">
+                    <span>Предоставляете ли вы гарантию?</span>
+                    <div class="faq-icon bg-foreground p-2 rounded-full transition-transform duration-300 flex-shrink-0 ml-2">
+                        <svg class="h-4 w-4" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.025 22L7.25 20.225L15.475 12L7.25 3.775L9.025 2L19.025 12L9.025 22Z" fill="var(--background)" />
                         </svg>
                     </div>
                 </button>
-
-                <div class="faq-popup absolute left-0 top-full w-full bg-card rounded-b-2xl shadow-xl p-4 text-sm text-muted-foreground hidden z-50">Сроки зависят от сложности проекта, обычно от 2 до 6 недель.</div>
+                <div class="faq-answer overflow-hidden transition-all duration-300 max-h-0">
+                    <div class="p-4 pt-2 text-sm sm:text-base text-muted-foreground bg-card rounded-b-xl">Да, мы предоставляем гарантию 3 года на все виды выполненных работ.</div>
+                </div>
             </div>
 
-            <div class="faq-item relative">
-                <button class="faq-question w-full items-center py-3 px-4 bg-card text-left rounded-2xl flex justify-between relative z-10">
-                    Как долго длится работа?
-                    <div class="bg-foreground p-2 rounded-full transition-transform duration-300">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 4L7.49521 7.75L1 11.5" stroke="var(--background)" stroke-width="2" />
-                            <path d="M7.49524 4L13.9904 7.75L7.49524 11.5" stroke="var(--background)" stroke-width="2" />
+            <!-- Вопрос 4 -->
+            <div class="faq-item">
+                <button class="faq-question w-full items-center py-3 px-4 bg-card text-left rounded-xl flex justify-between transition-all duration-300 text-sm sm:text-base">
+                    <span>Нужно ли мне покупать материалы?</span>
+                    <div class="faq-icon bg-foreground p-2 rounded-full transition-transform duration-300 flex-shrink-0 ml-2">
+                        <svg class="h-4 w-4" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.025 22L7.25 20.225L15.475 12L7.25 3.775L9.025 2L19.025 12L9.025 22Z" fill="var(--background)" />
                         </svg>
                     </div>
                 </button>
-
-                <div class="faq-popup absolute left-0 top-full w-full bg-card rounded-b-2xl shadow-xl p-4 text-sm text-muted-foreground hidden z-50">Сроки зависят от сложности проекта, обычно от 2 до 6 недель.</div>
+                <div class="faq-answer overflow-hidden transition-all duration-300 max-h-0">
+                    <div class="p-4 pt-2 text-sm sm:text-base text-muted-foreground bg-card rounded-b-xl">Нет, мы берем на себя закупку всех необходимых материалов по согласованной смете.</div>
+                </div>
             </div>
 
-            <div class="faq-item relative">
-                <button class="faq-question w-full items-center py-3 px-4 bg-card text-left rounded-2xl flex justify-between relative z-10">
-                    Как долго длится работа?
-                    <div class="bg-foreground p-2 rounded-full transition-transform duration-300">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 4L7.49521 7.75L1 11.5" stroke="var(--background)" stroke-width="2" />
-                            <path d="M7.49524 4L13.9904 7.75L7.49524 11.5" stroke="var(--background)" stroke-width="2" />
+            <!-- Вопрос 5 -->
+            <div class="faq-item">
+                <button class="faq-question w-full items-center py-3 px-4 bg-card text-left rounded-xl flex justify-between transition-all duration-300 text-sm sm:text-base">
+                    <span>Как происходит оплата?</span>
+                    <div class="faq-icon bg-foreground p-2 rounded-full transition-transform duration-300 flex-shrink-0 ml-2">
+                        <svg class="h-4 w-4" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.025 22L7.25 20.225L15.475 12L7.25 3.775L9.025 2L19.025 12L9.025 22Z" fill="var(--background)" />
                         </svg>
                     </div>
                 </button>
-
-                <div class="faq-popup absolute left-0 top-full w-full bg-card rounded-b-2xl shadow-xl p-4 text-sm text-muted-foreground hidden z-50">Сроки зависят от сложности проекта, обычно от 2 до 6 недель.</div>
+                <div class="faq-answer overflow-hidden transition-all duration-300 max-h-0">
+                    <div class="p-4 pt-2 text-sm sm:text-base text-muted-foreground bg-card rounded-b-xl">Оплата производится поэтапно: аванс, промежуточные платежи по завершению этапов и окончательный расчет.</div>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            faqItems.forEach((item) => {
+                const question = item.querySelector('.faq-question');
+                const answer = item.querySelector('.faq-answer');
+                const icon = item.querySelector('.faq-icon');
+
+                question.addEventListener('click', (e) => {
+                    e.stopPropagation();
+
+                    const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+
+                    // Закрываем все остальные
+                    faqItems.forEach((otherItem) => {
+                        const otherAnswer = otherItem.querySelector('.faq-answer');
+                        const otherIcon = otherItem.querySelector('.faq-icon');
+                        const otherQuestion = otherItem.querySelector('.faq-question');
+
+                        otherAnswer.style.maxHeight = '0px';
+                        otherIcon.style.transform = 'rotate(0deg)';
+                        otherQuestion.classList.remove('rounded-b-none');
+                    });
+
+                    // Открываем текущий, если он был закрыт
+                    if (!isOpen) {
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                        icon.style.transform = 'rotate(90deg)';
+                        question.classList.add('rounded-b-none');
+                    }
+                });
+            });
+
+            // Закрытие при клике вне FAQ
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.faq-item')) {
+                    faqItems.forEach((item) => {
+                        const answer = item.querySelector('.faq-answer');
+                        const icon = item.querySelector('.faq-icon');
+                        const question = item.querySelector('.faq-question');
+
+                        answer.style.maxHeight = '0px';
+                        icon.style.transform = 'rotate(0deg)';
+                        question.classList.remove('rounded-b-none');
+                    });
+                }
+            });
+        });
+    </script>
 </section>

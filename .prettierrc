@@ -1,0 +1,8 @@
+{
+    "plugins": ["prettier-plugin-jinja-template"],
+    "printWidth": 9999,
+    "tabWidth": 4,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true
+}

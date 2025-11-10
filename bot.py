@@ -1,4 +1,5 @@
 import asyncio
+import os
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -7,9 +8,26 @@ from database import (
     get_latest_application_id, toggle_application_status
 )
 from datetime import datetime
+from dotenv import load_dotenv
 
-BOT_TOKEN = "8439653071:AAFumKitOJKrGctnL8DrfOjrLXCa7NXUxK8"
-ADMIN_ID = 6052363807
+# Загружаем переменные окружения из .env файла
+load_dotenv()
+
+# Получаем токен бота из переменных окружения
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+if not BOT_TOKEN:
+    raise ValueError("BOT_TOKEN не найден в .env файле")
+
+# Получаем список админских ID из переменных окружения
+ADMIN_IDS_STR = os.getenv("ADMIN_IDS", "")
+if not ADMIN_IDS_STR:
+    raise ValueError("ADMIN_IDS не найден в .env файле")
+
+# Преобразуем строку в список целых чисел
+ADMIN_IDS = [int(admin_id.strip()) for admin_id in ADMIN_IDS_STR.split(",") if admin_id.strip()]
+
+if not ADMIN_IDS:
+    raise ValueError("ADMIN_IDS должен содержать хотя бы один ID")
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
@@ -30,6 +48,10 @@ def format_application(app):
     text += f"\nСтатус: {status}"
     return text
 
+# --- Проверка прав администратора ---
+def is_admin(user_id: int) -> bool:
+    return user_id in ADMIN_IDS
+
 # --- Фоновая задача для новых заявок ---
 async def check_new_applications():
     global last_checked_id
@@ -47,7 +69,9 @@ async def check_new_applications():
                         callback_data=f"toggle_{app[0]}_0"
                     )]
                 ])
-                await bot.send_message(chat_id=ADMIN_ID, text=text, reply_markup=keyboard, parse_mode="Markdown")
+                # Отправляем уведомление всем администраторам
+                for admin_id in ADMIN_IDS:
+                    await bot.send_message(chat_id=admin_id, text=text, reply_markup=keyboard, parse_mode="Markdown")
                 last_checked_id = max(last_checked_id, app[0])
         except Exception as e:
             print(f"Ошибка при проверке новых заявок: {e}")
@@ -56,6 +80,11 @@ async def check_new_applications():
 # --- Список заявок ---
 @dp.message(Command(commands=["applications"]))
 async def applications_list(message: types.Message, offset: int = 0, limit: int = 5):
+    # Проверяем, что пользователь является администратором
+    if not is_admin(message.from_user.id):
+        await message.answer("У вас нет прав для выполнения этой команды.")
+        return
+    
     apps = get_applications(offset=offset, limit=limit)
     if not apps:
         await message.answer("Заявок пока нет.")
@@ -76,6 +105,11 @@ async def applications_list(message: types.Message, offset: int = 0, limit: int 
 # --- Callback для деталей и управления ---
 @dp.callback_query()
 async def applications_callback_handler(callback: types.CallbackQuery):
+    # Проверяем, что пользователь является администратором
+    if not is_admin(callback.from_user.id):
+        await callback.answer("У вас нет прав для выполнения этого действия.", show_alert=True)
+        return
+    
     data = callback.data
 
     if data.startswith("view_"):

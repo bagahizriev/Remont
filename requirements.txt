@@ -4,3 +4,4 @@ python-multipart
 aiogram
 aiosqlite
 jinja2
+python-dotenv
