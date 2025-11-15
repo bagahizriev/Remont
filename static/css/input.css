@@ -66,7 +66,7 @@
     }
 
     .services__wrapper-item-link {
-        @apply flex flex-row gap-2 items-center underline underline-offset-4;
+        @apply flex flex-row gap-2 items-center underline underline-offset-4 hover:opacity-80 transition-opacity;
     }
 
     .services__wrapper-item-price {
@@ -104,19 +104,19 @@
     }
 
     .services-page__heading {
-        @apply text-xl font-medium mb-3 text-foreground;
+        @apply text-xl mb-3 text-foreground;
     }
 
     .services-page__subheading {
-        @apply text-lg font-medium mb-3 text-foreground;
+        @apply text-lg  mb-3 text-foreground;
     }
 
     .services-page__text {
-        @apply text-gray-600 leading-relaxed;
+        @apply text-gray-600 leading-relaxed text-balance text-sm lg:text-base;
     }
 
     .services-page__text--small {
-        @apply text-sm text-gray-500 leading-relaxed;
+        @apply text-sm text-gray-500 leading-relaxed text-balance;
     }
 
     /* Карточки */
@@ -152,7 +152,7 @@
 
     /* Списки */
     .services-page__items {
-        @apply space-y-2 text-gray-600 mt-3;
+        @apply space-y-2 text-gray-600 mt-3 text-sm lg:text-base;
     }
 
     .services-page__item {
@@ -161,7 +161,7 @@
 
     /* Таблицы */
     .services-page__table {
-        @apply bg-background rounded-xl border border-border-100 overflow-hidden divide-y divide-gray-100;
+        @apply bg-background rounded-xl border border-border-100 overflow-hidden divide-y divide-gray-100 text-sm lg:text-base;
     }
 
     .services-page__table-header {
@@ -182,19 +182,19 @@
     }
 
     .services-page__cell--right {
-        @apply text-foreground text-right font-medium;
+        @apply text-foreground text-right;
     }
 
     .services-page__cell--header {
-        @apply font-medium text-foreground;
+        @apply text-secondary;
     }
 
     .services-page__cell--header-center {
-        @apply font-medium text-foreground text-center;
+        @apply text-secondary text-center;
     }
 
     .services-page__cell--header-right {
-        @apply font-medium text-foreground text-right;
+        @apply text-secondary text-right;
     }
 
     /* Утилиты */
