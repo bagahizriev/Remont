@@ -1,0 +1,16 @@
+[Unit]
+Description=Remont Telegram Bot
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/path/to/Remont
+Environment="PATH=/path/to/Remont/venv/bin"
+ExecStart=/path/to/Remont/venv/bin/python bot.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+
