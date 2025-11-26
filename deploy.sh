@@ -1,190 +1,132 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-set -e
+# --- Конфигурируемые переменные ---
+REPO_URL="https://github.com/bagahizriev/Remont.git"
+PROJECT_DIR="/var/www/remont"
+DOMAIN="comfortholding.ru"
+ADDITIONAL_DOMAIN="www.comfortholding.ru"
+BOT_TOKEN="8439653071:AAFumKitOJKrGctnL8DrfOjrLXCa7NXUxK8"
+ADMIN_IDS="6052363807"
+SYSTEM_USER="www-data"
 
-# ---------------------------
-# Конфигурация проекта
-# ---------------------------
-PROJECT_USER="remont"
-PROJECT_DIR="/srv/remont"
-PROJECT_REPO="https://github.com/bagahizriev/Remont.git"  # ЗАМЕНИТЕ НА ВАШ РЕПОЗИТОРИЙ
-DOMAIN="your-domain.com"  # ЗАМЕНИТЕ НА ВАШ ДОМЕН
-PYTHON_VERSION="3.12"
-VENV_DIR="$PROJECT_DIR/venv"
-BOT_TOKEN="your_telegram_bot_token_here"  # ЗАМЕНИТЕ НА ВАШ ТОКЕН
-ADMIN_IDS="123456789"  # ЗАМЕНИТЕ НА ВАШИ TELEGRAM ID (через запятую)
-SSL_EMAIL="your-email@example.com"  # ЗАМЕНИТЕ НА ВАШ EMAIL
+# --- Проверки окружения ---
+if [[ "$(id -u)" -ne 0 ]]; then
+  echo "Эту установку нужно запускать под root (sudo)." >&2
+  exit 1
+fi
 
-# ---------------------------
-# Обновление системы
-# ---------------------------
-echo "Обновляем пакеты..."
-sudo apt update && sudo apt upgrade -y
+if [[ -z "$REPO_URL" || -z "$PROJECT_DIR" || -z "$DOMAIN" || -z "$BOT_TOKEN" || -z "$ADMIN_IDS" ]]; then
+  echo "Заполните все переменные в верхней части скрипта." >&2
+  exit 1
+fi
 
-# Устанавливаем необходимые пакеты
-sudo apt install -y python$PYTHON_VERSION python$PYTHON_VERSION-venv python$PYTHON_VERSION-dev \
-                    build-essential nginx git curl certbot python3-certbot-nginx nodejs npm
+RUN_USER="${SUDO_USER:-root}"
 
-# ---------------------------
-# Создание пользователя
-# ---------------------------
-if id "$PROJECT_USER" &>/dev/null; then
-    echo "Пользователь $PROJECT_USER уже существует"
+APT_PACKAGES=(
+  git python3 python3-venv python3-pip
+  nodejs npm sqlite3 nginx ufw
+  certbot python3-certbot-nginx
+)
+
+echo "[1/10] Установка пакетов..."
+export DEBIAN_FRONTEND=noninteractive
+apt update
+apt install -y "${APT_PACKAGES[@]}"
+
+echo "[2/10] Создание системной директории $PROJECT_DIR..."
+mkdir -p "$PROJECT_DIR"
+chown "$RUN_USER":"$RUN_USER" "$PROJECT_DIR"
+
+if [[ -d "$PROJECT_DIR/.git" ]]; then
+  echo "[3/10] Обновление репозитория..."
+  sudo -u "$RUN_USER" git -C "$PROJECT_DIR" pull --ff-only
 else
-    echo "Создаём пользователя $PROJECT_USER..."
-    sudo adduser --disabled-password --gecos "" $PROJECT_USER
+  echo "[3/10] Клонирование репозитория..."
+  sudo -u "$RUN_USER" git clone "$REPO_URL" "$PROJECT_DIR"
 fi
 
-# ---------------------------
-# Создание директории проекта
-# ---------------------------
-echo "Создаём директорию проекта..."
-sudo mkdir -p $PROJECT_DIR
-sudo chown -R $PROJECT_USER:$PROJECT_USER $PROJECT_DIR
+cd "$PROJECT_DIR"
 
-# ---------------------------
-# Клонирование проекта
-# ---------------------------
-if [ -n "$PROJECT_REPO" ] && [ ! -d "$PROJECT_DIR/.git" ]; then
-    echo "Клонируем проект из репозитория..."
-    sudo -u $PROJECT_USER git clone $PROJECT_REPO $PROJECT_DIR
-elif [ -n "$PROJECT_REPO" ]; then
-    echo "Проект уже клонирован. Обновляем из репозитория..."
-    sudo -u $PROJECT_USER git -C $PROJECT_DIR pull
-fi
+echo "[4/10] Настройка Python окружения..."
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
 
-# ---------------------------
-# Настройка виртуального окружения
-# ---------------------------
-if [ ! -d "$VENV_DIR" ]; then
-    echo "Создаём виртуальное окружение..."
-    sudo -u $PROJECT_USER python$PYTHON_VERSION -m venv $VENV_DIR
-fi
+echo "[5/10] Сборка фронтенда..."
+sudo -u "$RUN_USER" npm install
+sudo -u "$RUN_USER" npm run build
 
-echo "Обновляем pip..."
-sudo -u $PROJECT_USER $VENV_DIR/bin/pip install --upgrade pip
+echo "[6/10] Обновление файла .env..."
+cat <<EOF > .env
+BOT_TOKEN=${BOT_TOKEN}
+ADMIN_IDS=${ADMIN_IDS}
+EOF
+chown "$SYSTEM_USER":"$SYSTEM_USER" .env || true
 
-# Установка зависимостей
-if [ -f "$PROJECT_DIR/requirements.txt" ]; then
-    echo "Устанавливаем зависимости..."
-    sudo -u $PROJECT_USER $VENV_DIR/bin/pip install -r $PROJECT_DIR/requirements.txt
-fi
+# Создаём базу заранее и отдаём права сервисному пользователю
+touch applications.db
+chown "$SYSTEM_USER":"$SYSTEM_USER" applications.db || true
 
-# ---------------------------
-# Настройка .env
-# ---------------------------
-ENV_FILE="$PROJECT_DIR/.env"
-echo "Создаём .env файл..."
-
-sudo -u $PROJECT_USER tee $ENV_FILE > /dev/null <<EOL
-BOT_TOKEN=$BOT_TOKEN
-ADMIN_IDS=$ADMIN_IDS
-EOL
-
-# ---------------------------
-# Установка npm-зависимостей и сборка Tailwind CSS
-# ---------------------------
-echo "Устанавливаем npm-зависимости и собираем Tailwind CSS..."
-cd $PROJECT_DIR
-sudo -u $PROJECT_USER npm install
-sudo -u $PROJECT_USER npm run build
-
-# ---------------------------
-# Настройка прав доступа
-# ---------------------------
-echo "Настраиваем права доступа..."
-sudo chmod -R 755 $PROJECT_DIR/static
-sudo chmod -R 755 $PROJECT_DIR/templates
-
-# Создаём директорию для базы данных (если нужно)
-sudo -u $PROJECT_USER touch $PROJECT_DIR/applications.db || true
-sudo chmod 644 $PROJECT_DIR/applications.db || true
-
-# ---------------------------
-# Systemd сервис для веб-приложения (FastAPI)
-# ---------------------------
-WEB_SERVICE="/etc/systemd/system/remont-web.service"
-echo "Настройка systemd сервиса для веб-приложения..."
-
-sudo tee $WEB_SERVICE > /dev/null <<EOL
+echo "[7/10] Создание systemd юнитов..."
+cat <<EOF >/etc/systemd/system/remont-api.service
 [Unit]
-Description=Remont Web Application (FastAPI)
+Description=Remont FastAPI
 After=network.target
 
 [Service]
-Type=simple
-User=$PROJECT_USER
-Group=$PROJECT_USER
-WorkingDirectory=$PROJECT_DIR
-Environment="PATH=$VENV_DIR/bin"
-ExecStart=$VENV_DIR/bin/uvicorn main:app --host 127.0.0.1 --port 8000 --workers 4
-Restart=always
-RestartSec=10
+User=${SYSTEM_USER}
+Group=${SYSTEM_USER}
+WorkingDirectory=${PROJECT_DIR}
+Environment="PYTHONPATH=${PROJECT_DIR}"
+ExecStart=${PROJECT_DIR}/venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000 --proxy-headers
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
-EOL
+EOF
 
-sudo systemctl daemon-reload
-sudo systemctl enable remont-web
-sudo systemctl start remont-web
-
-# ---------------------------
-# Systemd сервис для Telegram бота
-# ---------------------------
-BOT_SERVICE="/etc/systemd/system/remont-bot.service"
-echo "Настройка systemd сервиса для Telegram бота..."
-
-sudo tee $BOT_SERVICE > /dev/null <<EOL
+cat <<EOF >/etc/systemd/system/remont-bot.service
 [Unit]
 Description=Remont Telegram Bot
-After=network.target
+After=network.target remont-api.service
 
 [Service]
-Type=simple
-User=$PROJECT_USER
-Group=$PROJECT_USER
-WorkingDirectory=$PROJECT_DIR
-Environment="PATH=$VENV_DIR/bin"
-ExecStart=$VENV_DIR/bin/python bot.py
+User=${SYSTEM_USER}
+Group=${SYSTEM_USER}
+WorkingDirectory=${PROJECT_DIR}
+EnvironmentFile=${PROJECT_DIR}/.env
+ExecStart=${PROJECT_DIR}/venv/bin/python bot.py
 Restart=always
-RestartSec=10
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
-EOL
+EOF
 
-sudo systemctl daemon-reload
-sudo systemctl enable remont-bot
-sudo systemctl start remont-bot
+systemctl daemon-reload
+systemctl enable --now remont-api remont-bot
 
-# ---------------------------
-# Nginx
-# ---------------------------
-echo "Настройка Nginx..."
+# Перед стартом сервисов убеждаемся, что весь проект принадлежит SYSTEM_USER,
+# чтобы FastAPI и бот могли писать в базу и другие файлы.
+chown -R "$SYSTEM_USER":"$SYSTEM_USER" "$PROJECT_DIR"
 
-NGINX_CONF="/etc/nginx/sites-available/remont"
-
-sudo tee $NGINX_CONF > /dev/null <<EOL
+echo "[8/10] Настройка Nginx..."
+STATIC_DIR="${PROJECT_DIR}/static"
+cat <<EOF >/etc/nginx/sites-available/remont
 server {
     listen 80;
-    server_name $DOMAIN www.$DOMAIN;
+    server_name ${DOMAIN} ${ADDITIONAL_DOMAIN};
 
-    client_max_body_size 50M;
-
-    location = /favicon.ico { 
-        access_log off; 
-        log_not_found off; 
-    }
+    client_max_body_size 20m;
 
     location /static/ {
-        alias $PROJECT_DIR/static/;
-        expires 30d;
-        add_header Cache-Control "public, immutable";
+        alias ${STATIC_DIR}/;
+        add_header Cache-Control "public, max-age=31536000, immutable";
     }
 
     location / {
-        include proxy_params;
         proxy_pass http://127.0.0.1:8000;
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
@@ -192,46 +134,23 @@ server {
         proxy_set_header X-Forwarded-Proto \$scheme;
     }
 }
-EOL
+EOF
 
-sudo ln -sf $NGINX_CONF /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo systemctl restart nginx
+ln -sf /etc/nginx/sites-available/remont /etc/nginx/sites-enabled/remont
+nginx -t
+systemctl reload nginx
 
-# ---------------------------
-# SSL через Let's Encrypt
-# ---------------------------
-echo "Настройка SSL..."
-sudo certbot --nginx -d $DOMAIN -d www.$DOMAIN --non-interactive --agree-tos -m $SSL_EMAIL
+echo "[9/10] Настройка фаервола..."
+ufw allow OpenSSH
+ufw allow 'Nginx Full'
+ufw --force enable
 
-# Перезапускаем сервисы после настройки SSL
-sudo systemctl restart remont-web
-sudo systemctl restart remont-bot
-sudo systemctl restart nginx
+echo "[10/10] Выпуск Let's Encrypt сертификата..."
+domains=(-d "$DOMAIN")
+if [[ -n "$ADDITIONAL_DOMAIN" ]]; then
+  domains+=(-d "$ADDITIONAL_DOMAIN")
+fi
+certbot --nginx "${domains[@]}" --agree-tos --no-eff-email -m "admin@${DOMAIN}"
 
-# ---------------------------
-# Завершение
-# ---------------------------
-echo ""
-echo "=========================================="
-echo "Развертывание завершено!"
-echo "=========================================="
-echo "Доступ к проекту: https://$DOMAIN"
-echo "Telegram бот должен быть запущен"
-echo ""
-echo "Проверка статуса сервисов:"
-echo "  sudo systemctl status remont-web"
-echo "  sudo systemctl status remont-bot"
-echo ""
-echo "Просмотр логов:"
-echo "  sudo journalctl -u remont-web -f"
-echo "  sudo journalctl -u remont-bot -f"
-echo ""
-echo "ВАЖНО: Убедитесь, что вы заменили следующие значения в скрипте:"
-echo "  - PROJECT_REPO (URL вашего репозитория)"
-echo "  - DOMAIN (ваш домен)"
-echo "  - BOT_TOKEN (токен Telegram бота)"
-echo "  - ADMIN_IDS (ваши Telegram ID)"
-echo "  - SSL_EMAIL (ваш email для Let's Encrypt)"
-echo "=========================================="
+echo "Готово. Приложение и бот работают за Nginx с HTTPS."
 

@@ -1,9 +1,9 @@
-<header class="header-main relative h-screen bg-cover bg-center min-h-[600px] text-background" id="about" style="background-image: url('/static/images/header.png')">
+<header class="header-main relative min-h-screen lg:h-screen bg-cover bg-center min-h-[600px] text-background" id="about" style="background-image: url('/static/images/header.png')">
     <!-- затемнение -->
     <div class="absolute inset-0 bg-black/50"></div>
 
     <!-- Навбар -->
-    <nav id="navbar" class="absolute top-0 left-0 right-0 z-50 h-16 sm:h-20 bg-transparent">
+    <nav id="navbar" class="absolute top-0 left-0 right-0 z-30 h-16 sm:h-20 bg-transparent">
         <div class="flex justify-between items-center h-full max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
             <!-- Логотип слева -->
             <div class="flex items-center">
@@ -59,20 +59,50 @@
     <div id="menu-overlay" class="fixed inset-0 bg-black/70 opacity-0 pointer-events-none transition-opacity duration-300 z-40 lg:hidden"></div>
 
     <!-- Мобильное меню -->
-    <div id="mobile-menu" class="fixed top-0 right-0 h-full w-80 bg-gray-900 transform translate-x-full transition-transform duration-300 z-50 lg:hidden">
-        <div class="flex flex-col h-full p-8 pt-24">
-            <ul class="flex flex-col gap-6 text-lg">
-                <li><a href="#about" class="block py-2 hover:text-gray-300 transition-colors mobile-menu-link">О нас</a></li>
-                <li><a href="#services" class="block py-2 hover:text-gray-300 transition-colors mobile-menu-link">Услуги</a></li>
-                <li><a href="#feedback" class="block py-2 hover:text-gray-300 transition-colors mobile-menu-link">Отзывы</a></li>
-                <li><a href="#faq" class="block py-2 hover:text-gray-300 transition-colors mobile-menu-link">Вопрос-ответ</a></li>
-                <li><a href="#contacts" class="block py-2 hover:text-gray-300 transition-colors mobile-menu-link">Контакты</a></li>
-            </ul>
+    <div id="mobile-menu" class="fixed top-0 right-0 h-full w-80 bg-white text-foreground transform translate-x-full transition-transform duration-300 z-50 lg:hidden shadow-xl">
+        <div class="flex flex-col h-full">
+            <!-- Верхняя панель с логотипом и крестиком -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+                <a href="/" class="flex items-center gap-2">
+                    <svg class="h-6 w-6 text-gray-900" width="245" height="245" viewBox="0 0 245 245" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1_27)">
+                            <line x1="72.5" y1="93" x2="72.5" y2="243" stroke="currentColor" stroke-width="30" />
+                            <line x1="172.5" y1="93" x2="172.5" y2="148" stroke="currentColor" stroke-width="30" />
+                            <line x1="172.5" y1="188" x2="172.5" y2="243" stroke="currentColor" stroke-width="30" />
+                            <line x1="187.5" y1="108" x2="57.5" y2="108" stroke="currentColor" stroke-width="30" />
+                            <line x1="187.5" y1="228" x2="57.5" y2="228" stroke="currentColor" stroke-width="30" />
+                            <path d="M10 81.9519L122.5 17L235 81.9519" stroke="currentColor" stroke-width="30" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1_27">
+                                <rect width="245" height="245" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    <span class="text-base font-medium text-gray-900">Comfort Holding</span>
+                </a>
+                <button id="menu-close-btn" class="p-1 text-gray-900">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Ссылки -->
+            <div class="flex-1 overflow-y-auto p-8 pt-6">
+                <ul class="flex flex-col gap-6 text-lg">
+                    <li><a href="#about" class="block py-2 hover:text-gray-500 transition-colors mobile-menu-link">О нас</a></li>
+                    <li><a href="#services" class="block py-2 hover:text-gray-500 transition-colors mobile-menu-link">Услуги</a></li>
+                    <li><a href="#feedback" class="block py-2 hover:text-gray-500 transition-colors mobile-menu-link">Отзывы</a></li>
+                    <li><a href="#faq" class="block py-2 hover:text-gray-500 transition-colors mobile-menu-link">Вопрос-ответ</a></li>
+                    <li><a href="#contacts" class="block py-2 hover:text-gray-500 transition-colors mobile-menu-link">Контакты</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 
     <!-- Контент -->
-    <div class="relative z-10 flex flex-col h-full max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 pt-20 sm:pt-24">
+    <div class="relative z-10 flex flex-col lg:h-full max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 pt-20 sm:pt-24">
         <!-- Hero -->
         <div class="flex flex-col flex-grow items-left justify-center text-left gap-8 sm:gap-12 py-8 sm:py-0">
             <div class="flex flex-col gap-4 sm:gap-6">
@@ -87,7 +117,7 @@
         </div>
 
         <!-- Преимущества -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 py-8 sm:py-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 py-8 sm:py-12 mt-8 lg:mt-auto lg:pb-16">
             <div class="text-left">
                 <h3 class="text-xl sm:text-2xl font-medium mb-2">Опытная команда</h3>
                 <p class="font-light text-sm sm:text-base">Более 10 лет на рынке</p>
@@ -112,6 +142,7 @@
         const burgerIcon = document.getElementById('burger-icon');
         const closeIcon = document.getElementById('close-icon');
         const mobileMenu = document.getElementById('mobile-menu');
+        const menuCloseBtn = document.getElementById('menu-close-btn');
         const menuOverlay = document.getElementById('menu-overlay');
         const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
 
@@ -154,6 +185,9 @@
         });
 
         menuOverlay.addEventListener('click', closeMenu);
+        if (menuCloseBtn) {
+            menuCloseBtn.addEventListener('click', closeMenu);
+        }
         mobileMenuLinks.forEach((link) => link.addEventListener('click', closeMenu));
 
         window.addEventListener('resize', () => {

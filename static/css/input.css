@@ -22,7 +22,7 @@
     }
 
     .header {
-        @apply relative h-screen bg-cover bg-center text-background;
+        @apply relative min-h-screen bg-cover bg-center text-background;
     }
 
     .services__header {

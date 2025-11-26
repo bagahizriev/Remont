@@ -579,7 +579,7 @@ body {
 
 .header {
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
   background-size: cover;
   background-position: center;
   color: var(--background);
@@ -1088,6 +1088,10 @@ body {
   z-index: 50;
 }
 
+.z-30 {
+  z-index: 30;
+}
+
 .mx-4 {
   margin-left: 1rem;
   margin-right: 1rem;
@@ -1226,6 +1230,10 @@ body {
   min-height: 100dvh;
 }
 
+.min-h-screen {
+  min-height: 100vh;
+}
+
 .w-3 {
   width: 0.75rem;
 }
@@ -1273,6 +1281,10 @@ body {
 
 .max-w-xl {
   max-width: 36rem;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
 }
 
 .flex-shrink-0 {
@@ -1416,6 +1428,10 @@ body {
 
 .overflow-hidden {
   overflow: hidden;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
 }
 
 .text-balance {
@@ -1596,6 +1612,10 @@ body {
 
 .p-8 {
   padding: 2rem;
+}
+
+.p-1 {
+  padding: 0.25rem;
 }
 
 .px-0\.5 {
@@ -1848,6 +1868,12 @@ body {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.shadow-xl {
+  --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
 .blur {
   --tw-blur: blur(8px);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
@@ -1897,6 +1923,11 @@ body {
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
+.hover\:text-gray-500:hover {
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity, 1));
 }
 
 .hover\:opacity-80:hover {
@@ -2175,6 +2206,10 @@ body {
     margin-top: 6rem;
   }
 
+  .lg\:mt-auto {
+    margin-top: auto;
+  }
+
   .lg\:flex {
     display: flex;
   }
@@ -2191,6 +2226,14 @@ body {
     height: 312px;
   }
 
+  .lg\:h-full {
+    height: 100%;
+  }
+
+  .lg\:h-screen {
+    height: 100vh;
+  }
+
   .lg\:w-1\/2 {
     width: 50%;
   }
@@ -2201,6 +2244,10 @@ body {
 
   .lg\:flex-row {
     flex-direction: row;
+  }
+
+  .lg\:justify-between {
+    justify-content: space-between;
   }
 
   .lg\:gap-2 {
@@ -2215,6 +2262,10 @@ body {
   .lg\:py-24 {
     padding-top: 6rem;
     padding-bottom: 6rem;
+  }
+
+  .lg\:pb-16 {
+    padding-bottom: 4rem;
   }
 
   .lg\:text-5xl {
