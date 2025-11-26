@@ -4,4 +4,4 @@ __pycache__/
 *.db
 .env
 static/css/output.css
-
+applications.db
