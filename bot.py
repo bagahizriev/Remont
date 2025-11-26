@@ -90,7 +90,7 @@ async def check_new_applications():
         await asyncio.sleep(10)
 
 # --- Список заявок ---
-@dp.message(Command(commands=["applications"]))
+@dp.message(Command(commands=["list"]))
 async def applications_list(message: types.Message, offset: int = 0, limit: int = 5):
     # Проверяем, что пользователь является администратором
     if not is_admin(message.from_user.id):
